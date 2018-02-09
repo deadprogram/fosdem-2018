@@ -1,0 +1,919 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+
+    <title>Computer Vision Using Go and OpenCV 3</title>
+
+    <meta name="description" content="Computer Vision Using Go and OpenCV 3">
+    <meta name="author" content="Ron Evans">
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <link rel="stylesheet" href="css/reveal.css">
+    <link rel="stylesheet" href="css/theme/default.css" id="theme">
+
+    <!-- For syntax highlighting -->
+    <link rel="stylesheet" href="lib/css/tomorrow.css">
+
+    <link rel="stylesheet" href="css/hybrid.css">
+
+    <!-- If the query includes 'print-pdf', use the PDF print sheet -->
+    <script>
+      document.write( '<link rel="stylesheet" href="css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+    </script>
+
+    <!--[if lt IE 9]>
+    <script src="lib/js/html5shiv.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <div class="reveal">
+
+      <!-- Any section element inside of this container is displayed as a slide -->
+      <div class="slides">
+        <section>
+          <section>
+            <h1>Computer Vision Using Go and OpenCV 3</h1>
+            <h2>Ron Evans - @deadprogram</h2>
+          </section>
+        </section>
+
+        <section>
+          <h2>Welcome</h2>
+        </section>
+  
+        <section>
+          <h2>Ron Evans (@deadprogram)</h2>
+        </section>
+  
+        <section>
+          <h2>Ringleader</h2>
+          <h3>@hybrid_group</h3>
+        </section>
+  
+        <section>
+          <div class="image-container">
+            <img src="images/thg-logo.png">
+          </div>
+          <h3>hybridgroup.com</h3>
+        </section>
+  
+        <section>
+          <h2>Clients</h2>
+        </section>
+  
+        <section>
+          <div class="image-container">
+            <img src="images/intel-logo.jpg">
+          </div>
+        </section>
+  
+        <section>
+          <div class="image-container">
+            <img src="images/sphero-logo.png">
+          </div>
+        </section>
+  
+        <section>
+          <h2>Open Source Projects</h2>
+        </section>
+  
+        <section>
+          <div class="image-container">
+            <img src="images/gobot-logo.png">
+          </div>
+          <h3>gobot.io</h3>
+        </section>
+
+        <section>
+          <div class="image-container">
+            <img src="images/gocvlogo.jpg">
+          </div>
+          <h3>gocv.io</h3>          
+        </section>
+
+        <section>
+          <div class="image-container">
+            <img src="images/opencv-logo.png">
+          </div>
+          <h3>opencv.org</h3>
+        </section>
+
+        <section>
+          <div class="image-container">
+            <img src="images/golang-logo.png">
+          </div>
+          <h3>golang.org</h3>
+        </section>
+
+        <section>
+          <div class="image-container">
+            <img src="images/intel-logo.jpg">
+          </div>
+          <h3>Intel Computer Vision SDK</h3>
+        </section>
+
+        <section>
+            <h2>What is computer vision?</h2>
+        </section>
+    
+        <section>            
+          <section>
+            <h2>Computer vision can...</h2>
+          </section>
+
+          <section>
+            <h2>Detect motion</h2>
+          </section>
+
+          <section>
+            <h2>Recognize people</h2>
+          </section>
+
+          <section>
+            <h2>Telepresence</h2>
+          </section>
+
+          <section>
+            <h2>Autonomous Vehicles</h2>
+          </section>
+
+          <section>
+            <h2>Augmented Humans</h2>
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h2>Why you should use Go<br>for computer vision</h2>
+          </section>
+
+          <section>
+            <h2>Concurrency</h2>
+          </section>
+
+          <section>
+            <h2>Portability</h2>
+          </section>
+
+          <section>
+            <h2>Performance</h2>
+          </section>
+        </section>
+
+        <section>          
+          <section>
+            <h2>How GoCV Works</h2>
+          </section>
+
+          <section>
+            <h2>Go &rarr; CGo &rarr; C &rarr; C++</h2>
+          </section>
+
+          <section>
+            <h2>Linux</h2>
+          </section>
+
+          <section>
+            <h2>mac os</h2>
+          </section>
+
+          <section>
+            <h2>Windows</h2>
+          </section>
+
+          <section>
+            <h2>Yes, I said Windows</h2>
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h2>The "Hello, world" of video</h2>
+          </section>
+
+          <section>
+            <pre><code class="golang">
+package main
+
+import (
+    "gocv.io/x/gocv"
+)
+
+func main() {
+    webcam, _ := gocv.VideoCaptureDevice(0)
+    window := gocv.NewWindow("Hello")	
+    img := gocv.NewMat()
+
+    for {
+        webcam.Read(img)
+        window.IMShow(img)
+        gocv.WaitKey(1)
+    }
+}
+            </code></pre>
+          </section>
+                
+          <section>
+            <h2>Demo</h2>
+          </section>
+        </section>
+
+        <section>
+            <section>
+                <h2>Into The Mat(rix)</h2>
+            </section>
+
+            <section>
+                <div class="image-container">
+                    <img src="images/mat-example.png">
+                </div>
+                <h3>Mat (2 dimensions, 3 channels)</h3>
+                <p>Image courtesy of opencv.jp/cookbook</p>
+            </section>
+    
+            <section>
+                <div class="image-container">
+                    <img src="images/mat-example-1-channel.png">
+                </div>
+                <h3>Mat (2 dimensions, 1 channel)</h3>
+                <p>Image courtesy of opencv.jp/cookbook</p>
+            </section>
+    
+            <section>
+                <div class="image-container">
+                    <img src="images/mat-example-3d.png">
+                </div>
+                <h3>Mat (3 dimensions, 4 channels)</h3>
+                <p>Image courtesy of opencv.jp/cookbook</p>
+            </section>    
+        </section>
+
+        <section>
+          <section>
+              <h2>4 Applications Using GoCV</h2>
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h2>Face tracking</h2>
+          </section>
+
+          <section>
+            <h2>Face <del>tracking</del></h2>
+          </section>
+
+          <section>
+            <h2>Face blurring</h2>
+          </section>
+
+          <section>
+            <div class="image-container">
+              <img src="images/cascade-example.png">
+            </div>
+            <h3>Cascade classifier</h3>
+          </section>
+
+          <section>
+            <pre><code class="golang">
+gocv.CascadeClassifier{}
+            </code></pre>
+        </section>
+
+          <section>
+            <pre><code class="golang">
+package main
+
+import (
+    "fmt"
+    "image"
+    "os"
+    "strconv"
+
+    "gocv.io/x/gocv"
+)
+
+func main() {
+    if len(os.Args) < 3 {
+        fmt.Println("How to run:\n\tfaceblur [camera ID] [classifier XML file]")
+        return
+    }
+
+    // parse args
+    deviceID, _ := strconv.Atoi(os.Args[1])
+    xmlFile := os.Args[2]
+
+    // open webcam
+    webcam, err := gocv.VideoCaptureDevice(deviceID)
+    if err != nil {
+        fmt.Printf("error opening video capture device: %v\n", deviceID)
+        return
+    }
+    defer webcam.Close()
+
+    // open display window
+    window := gocv.NewWindow("Face Blur")
+    defer window.Close()
+
+    // prepare image matrix
+    img := gocv.NewMat()
+    defer img.Close()
+
+    // load classifier to recognize faces
+    classifier := gocv.NewCascadeClassifier()
+    defer classifier.Close()
+
+    classifier.Load(xmlFile)
+
+    fmt.Printf("start reading camera device: %v\n", deviceID)
+    for {
+        if ok := webcam.Read(img); !ok {
+            fmt.Printf("cannot read device %d\n", deviceID)
+            return
+        }
+        if img.Empty() {
+            continue
+        }
+
+        // detect faces
+        rects := classifier.DetectMultiScale(img)
+        fmt.Printf("found %d faces\n", len(rects))
+
+        // blur each face on the original image
+        for _, r := range rects {
+            imgFace := img.Region(r)
+
+            // blur face
+            gocv.GaussianBlur(imgFace, imgFace, image.Pt(75, 75), 0, 0, gocv.BorderDefault)
+
+            imgFace.Close()
+        }
+
+        // show the image in the window, and wait 1 millisecond
+        window.IMShow(img)
+        if window.WaitKey(1) >= 0 {
+            break
+        }
+    }
+}                
+            </code></pre>
+          </section>
+          <section>
+            <h2>Demo</h2>
+          </section>
+        </section>
+
+        <section>
+            <section>
+                <h2>Motion Detection/Tracking</h2>
+            </section>
+
+            <section>
+                <h2>Background Subtraction</h2>
+            </section>
+
+            <section>
+                <h2>Mixture Of Gaussian (MOG)</h2>
+            </section>
+
+            <section>
+                <div class="image-container">
+                  <img src="images/gaussian-filter.png">
+                </div>
+                <h3>Gaussian</h3>
+            </section>
+
+            <section>
+                <div class="image-container">
+                  <img src="images/mog.png">
+                </div>
+                <h3>Mixture Of Gaussian</h3>
+                <p>CC BY-SA 3.0, https://commons.wikimedia.org/w/index.php?curid=84811</p>
+            </section>
+
+            <section>
+              <div class="image-container">
+                <img src="images/running_gaussian.jpg">
+              </div>
+              <h3>Running Mixture Of Gaussian</h3>
+              <p>CC BY-SA 3.0, https://commons.wikimedia.org/wiki/File:Running_gaussian.jpg</p>
+            </section>
+
+
+            <section>
+                <pre><code class="golang">
+gocv.BackgroundSubtractorMOG2{}
+                </code></pre>
+            </section>
+
+            <section>
+                <pre><code class="golang">
+package main
+
+import (
+    "fmt"
+    "image"
+    "image/color"
+    "os"
+    "strconv"
+
+    "gocv.io/x/gocv"
+)
+
+const MinimumArea = 3000
+
+func main() {
+    if len(os.Args) < 2 {
+        fmt.Println("How to run:\n\tmotion-detect [camera ID]")
+        return
+    }
+
+    // parse args
+    deviceID, _ := strconv.Atoi(os.Args[1])
+
+    webcam, err := gocv.VideoCaptureDevice(deviceID)
+    if err != nil {
+        fmt.Printf("Error opening video capture device: %v\n", deviceID)
+        return
+    }
+    defer webcam.Close()
+
+    window := gocv.NewWindow("Motion Window")
+    defer window.Close()
+
+    img := gocv.NewMat()
+    defer img.Close()
+
+    imgDelta := gocv.NewMat()
+    defer imgDelta.Close()
+
+    imgThresh := gocv.NewMat()
+    defer imgThresh.Close()
+
+    mog2 := gocv.NewBackgroundSubtractorMOG2()
+    defer mog2.Close()
+
+    status := "Ready"
+
+    fmt.Printf("Start reading camera device: %v\n", deviceID)
+    for {
+        if ok := webcam.Read(img); !ok {
+            fmt.Printf("Error cannot read device %d\n", deviceID)
+            return
+        }
+        if img.Empty() {
+            continue
+        }
+
+        status = "Ready"
+        statusColor := color.RGBA{0, 255, 0, 0}
+
+        // first phase of cleaning up image, obtain foreground only
+        mog2.Apply(img, imgDelta)
+
+        // remaining cleanup of the image to use for finding contours
+        gocv.Threshold(imgDelta, imgThresh, 25, 255, gocv.ThresholdBinary)
+        kernel := gocv.GetStructuringElement(gocv.MorphRect, image.Pt(3, 3))
+        gocv.Dilate(imgThresh, imgThresh, kernel)
+
+        contours := gocv.FindContours(imgThresh, gocv.RetrievalExternal, gocv.ChainApproxSimple)
+        for _, c := range contours {
+            area := gocv.ContourArea(c)
+            if area < MinimumArea {
+                continue
+            }
+
+            status = "Motion detected"
+            statusColor = color.RGBA{255, 0, 0, 0}
+            rect := gocv.BoundingRect(c)
+            gocv.Rectangle(img, rect, color.RGBA{255, 0, 0, 0}, 2)
+        }
+
+        gocv.PutText(img, status, image.Pt(10, 20), gocv.FontHersheyPlain, 1.2, statusColor, 2)
+
+        window.IMShow(img)
+        gocv.WaitKey(1)
+    }
+}
+            </code></pre>
+            </section>
+      
+            <section>
+                <h2>Demo</h2>
+            </section>
+        </section>
+    
+        <section>
+            <section>
+                <h2>MJPEG Streaming</h2>
+            </section>
+        
+            <section>
+                <pre><code class="golang">
+package main
+
+import (
+    "fmt"
+    "log"
+    "net/http"
+    "os"
+    "strconv"
+
+    "github.com/hybridgroup/mjpeg"
+    "gocv.io/x/gocv"
+)
+
+var (
+    deviceID int
+    err      error
+    webcam   *gocv.VideoCapture
+    stream   *mjpeg.Stream
+)
+
+func main() {
+    if len(os.Args) < 3 {
+        fmt.Println("How to run:\n\tmjpeg-streamer [camera ID] [host:port]")
+        return
+    }
+
+    // parse args
+    deviceID, _ = strconv.Atoi(os.Args[1])
+    host := os.Args[2]
+
+    // open webcam
+    webcam, err = gocv.VideoCaptureDevice(deviceID)
+    if err != nil {
+        fmt.Printf("error opening video capture device: %v\n", deviceID)
+        return
+    }
+    defer webcam.Close()
+
+    // create the mjpeg stream
+    stream = mjpeg.NewStream()
+
+    // start capturing
+    go capture()
+
+    fmt.Println("Capturing. Point your browser to " + host)
+
+    // start http server
+    http.Handle("/", stream)
+    log.Fatal(http.ListenAndServe(host, nil))
+}
+
+func capture() {
+    img := gocv.NewMat()
+    defer img.Close()
+
+    for {
+        if ok := webcam.Read(img); !ok {
+            fmt.Printf("cannot read device %d\n", deviceID)
+            return
+        }
+        if img.Empty() {
+            continue
+        }
+
+        buf, _ := gocv.IMEncode(".jpg", img)
+        stream.UpdateJPEG(buf)
+    }
+}					
+            </code></pre>
+            </section>
+        
+            <section>
+                <h2>Demo</h2>
+            </section>
+        </section>
+    
+        <section>
+            <section>
+                <h2>Tensordrone</h2>
+            </section>
+
+            <section>
+                <h2>Tensorflow enabled Drone</h2>
+            </section>
+
+            <section>
+              <div class="image-container">
+                <img src="images/tensorflow-logo.png">
+              </div>
+              <h3>tensorflow.org</h3>
+            </section>
+
+            <section>
+              <div class="image-container">
+                <img src="images/gobot-logo.png">
+              </div>
+              <h3>gobot.io</h3>
+            </section>
+
+            <section>
+              <div class="image-container">
+                <img src="images/dnn.png">
+              </div>
+              <h3>Deep Neural Network</h3>
+              <p>CC BY-SA 3.0, https://commons.wikimedia.org/w/index.php?curid=1496812</p>
+            </section>
+
+            <section>
+                <div class="image-container">
+                  <img src="images/inception_v3_architecture.png">
+                </div>
+                <h3>Inception v3 Architecture</h3>
+            </section>
+
+            <section>
+                <pre><code class="golang">
+gocv.Net{}
+                </code></pre>
+            </section>
+    
+            <section>
+                <pre><code class="golang">
+package main
+
+import (
+    "bufio"
+    "fmt"
+    "image"
+    "image/color"
+    "os"
+    "strconv"
+    "sync/atomic"
+    "time"
+
+    "gobot.io/x/gobot"
+    "gobot.io/x/gobot/platforms/ble"
+    "gobot.io/x/gobot/platforms/joystick"
+    "gobot.io/x/gobot/platforms/opencv"
+    "gobot.io/x/gobot/platforms/parrot/minidrone"
+    "gocv.io/x/gocv"
+)
+
+type pair struct {
+    x float64
+    y float64
+}
+
+var leftX, leftY, rightX, rightY atomic.Value
+
+const offset = 32767.0
+
+func main() {
+    // parse args
+    if len(os.Args) < 6 {
+        fmt.Println("How to run:\n\ttensordrone [drone ID] [joystick JSON file] [cameraid] [modelfile] [descriptionsfile]")
+        return
+    }
+
+    droneID := os.Args[1]
+    joystickFile := os.Args[2]
+    deviceID, _ := strconv.Atoi(os.Args[3])
+    model := os.Args[4]
+    descriptions, _ := readDescriptions(os.Args[5])
+
+    joystickAdaptor := joystick.NewAdaptor()
+    stick := joystick.NewDriver(joystickAdaptor, joystickFile)
+
+    droneAdaptor := ble.NewClientAdaptor(droneID)
+    drone := minidrone.NewDriver(droneAdaptor)
+
+    window := opencv.NewWindowDriver()
+    camera := opencv.NewCameraDriver(deviceID)
+
+    // open Tensorflow DNN classifier
+    net := gocv.ReadNetFromTensorflow(model)
+    defer net.Close()
+
+    work := func() {
+        leftX.Store(float64(0.0))
+        leftY.Store(float64(0.0))
+        rightX.Store(float64(0.0))
+        rightY.Store(float64(0.0))
+
+        camera.On(opencv.Frame, func(data interface{}) {
+            img := data.(gocv.Mat)
+
+            // convert image Mat to 224x244 blob that the classifier can analyze
+            blob := gocv.BlobFromImage(img, 1.0, image.Pt(224, 244), gocv.NewScalar(0, 0, 0, 0), true, false)
+
+            // feed the blob into the Tensorflow classifier network
+            net.SetInput(blob, "input")
+
+            // run a forward pass thru the network
+            prob := net.Forward("softmax2")
+
+            // reshape the results into a 1x1000 matrix
+            probMat := prob.Reshape(1, 1)
+
+            // determine the most probable classification, which will be max value
+            _, maxVal, _, maxLoc := gocv.MinMaxLoc(probMat)
+
+            // display classification based on position in the descriptions file
+            desc := "Unknown"
+            if maxLoc.X < 1000 {
+                desc = descriptions[maxLoc.X]
+            }
+            status := fmt.Sprintf("description: %v, maxVal: %v\n", desc, maxVal)
+            gocv.PutText(img, status, image.Pt(10, 20), gocv.FontHersheyPlain, 1.2, color.RGBA{0, 255, 0, 0}, 2)
+
+            blob.Close()
+			prob.Close()
+			probMat.Close()
+
+            window.ShowImage(img)
+            window.WaitKey(1)
+        })
+
+        stick.On(joystick.SquarePress, func(data interface{}) {
+            drone.Stop()
+        })
+
+        stick.On(joystick.TrianglePress, func(data interface{}) {
+            drone.HullProtection(true)
+            drone.TakeOff()
+        })
+
+        stick.On(joystick.XPress, func(data interface{}) {
+            drone.Land()
+        })
+
+        stick.On(joystick.LeftX, func(data interface{}) {
+            val := float64(data.(int16))
+            leftX.Store(val)
+        })
+
+        stick.On(joystick.LeftY, func(data interface{}) {
+            val := float64(data.(int16))
+            leftY.Store(val)
+        })
+
+        stick.On(joystick.RightX, func(data interface{}) {
+            val := float64(data.(int16))
+            rightX.Store(val)
+        })
+
+        stick.On(joystick.RightY, func(data interface{}) {
+            val := float64(data.(int16))
+            rightY.Store(val)
+        })
+
+        gobot.Every(10*time.Millisecond, func() {
+            rightStick := getRightStick()
+
+            switch {
+            case rightStick.y < -10:
+                drone.Forward(minidrone.ValidatePitch(rightStick.y, offset))
+            case rightStick.y > 10:
+                drone.Backward(minidrone.ValidatePitch(rightStick.y, offset))
+            default:
+                drone.Forward(0)
+            }
+
+            switch {
+            case rightStick.x > 10:
+                drone.Right(minidrone.ValidatePitch(rightStick.x, offset))
+            case rightStick.x < -10:
+                drone.Left(minidrone.ValidatePitch(rightStick.x, offset))
+            default:
+                drone.Right(0)
+            }
+        })
+
+        gobot.Every(10*time.Millisecond, func() {
+            leftStick := getLeftStick()
+            switch {
+            case leftStick.y < -10:
+                drone.Up(minidrone.ValidatePitch(leftStick.y, offset))
+            case leftStick.y > 10:
+                drone.Down(minidrone.ValidatePitch(leftStick.y, offset))
+            default:
+                drone.Up(0)
+            }
+
+            switch {
+            case leftStick.x > 20:
+                drone.Clockwise(minidrone.ValidatePitch(leftStick.x, offset))
+            case leftStick.x < -20:
+                drone.CounterClockwise(minidrone.ValidatePitch(leftStick.x, offset))
+            default:
+                drone.Clockwise(0)
+            }
+        })
+    }
+
+    robot := gobot.NewRobot("tensordrone",
+        []gobot.Connection{joystickAdaptor, droneAdaptor},
+        []gobot.Device{stick, drone, window, camera},
+        work,
+    )
+
+    robot.Start()
+}
+
+func getLeftStick() pair {
+    s := pair{x: 0, y: 0}
+    s.x = leftX.Load().(float64)
+    s.y = leftY.Load().(float64)
+    return s
+}
+
+func getRightStick() pair {
+    s := pair{x: 0, y: 0}
+    s.x = rightX.Load().(float64)
+    s.y = rightY.Load().(float64)
+    return s
+}
+
+// readDescriptions reads the descriptions from a file
+// and returns a slice of its lines.
+func readDescriptions(path string) ([]string, error) {
+    file, err := os.Open(path)
+    if err != nil {
+        return nil, err
+    }
+    defer file.Close()
+
+    var lines []string
+    scanner := bufio.NewScanner(file)
+    for scanner.Scan() {
+        lines = append(lines, scanner.Text())
+    }
+    return lines, scanner.Err()
+}                    
+                </code></pre>
+            </section>
+
+            <section>
+                <h2>Demo</h2>
+            </section>
+        </section>
+    
+        <section>
+          <div class="image-container">
+            <img src="images/gocvlogo.jpg">
+          </div>
+          <h3>gocv.io</h3>
+          <h3>@gocvio</h3>          
+        </section>
+
+        <section>
+          <h1>Thank you!</h1>
+          <h2>@deadprogram</h2>
+        </section>
+      </div>
+    </div>
+
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.min.js"></script>
+    <script src="js/hybrid.js"></script>
+
+    <script>
+
+      // Full list of configuration options available here:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+
+        theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+        transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+        // Parallax scrolling
+        // parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
+        // parallaxBackgroundSize: '2100px 900px',
+
+        leap: {
+          naturalSwipe   : true,    // Invert swipe gestures
+          pointerOpacity : 0.5,      // Set pointer opacity to 0.5
+          pointerColor   : '#d80000' // Red pointer
+        },
+
+        // Optional libraries used to extend on reveal.js
+        dependencies: [
+          { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+          { src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+          { src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+          { src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } },
+          { src: 'plugin/leap/leap.js', async: true }
+        ]
+      });
+
+    </script>
+
+  </body>
+</html>
